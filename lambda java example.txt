@@ -1,0 +1,11 @@
+lambda java app
+1. download aws toolkit for  eclipse
+https://aws.amazon.com/eclipse/
+Install the Toolkit
+2. Open Help ? Install New Software….
+3. Enter https://aws.amazon.com/eclipse in the text box labeled “Work with” at the top of the dialog.
+4. Select the required "AWS Core Management Tools" and other optional items from the list below.
+5. Click “Next.” Eclipse guides you through the remaining installation steps.
+
+6. follow the steps https://docs.aws.amazon.com/toolkit-for-eclipse/v1/user-guide/lambda-tutorial.html
+
