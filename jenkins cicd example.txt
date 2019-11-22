@@ -1,0 +1,56 @@
+
+1. Launch Amazon EC2 windows 2016 instance
+2. Download and Install JDK 1.8 on EC@2 instance (Tomcat Server)  from (http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+3. Download and install tomcat server from (http://mirrors.fibergrid.in/apache/tomcat/tomcat-8/v8.5.33/bin/apache-tomcat-8.5.33-windows-x64.zip)
+4. Set JAVA_HOME enviroment variables and add JAVA_HOME/bin to PATH variable
+example JAVA_HOME = C:\Program Files\Java\jdk1.8.0_181\
+		PATH = C:\Program Files\Java\jdk1.8.0_181\bin
+	validate by typing java.exe and javac.exe commands in command prompt
+5. Reboot your machine
+6. goto c:\tomcat\bin folder and run
+	c:\tomcat\bin\startup.bat ===> this will start tomcat application server
+7. By default tomcat runs on port 8080
+8. To change the port of tomcat server.... goto 
+	c:\tomcat\conf\  folder and edit server.xml
+	change the port no 8080 to 8090
+9. Restart the tomcat server
+10. Try to access using http://<tomcatservername>:8090
+11. Creating addtional users with required permissions
+12. Open c:\tomcat\conf\tomcat-users.xml and add the following
+<role rolename="tomcat"/>
+<role rolename="role1"/>
+<role rolename="manager"/>
+<role rolename="manager-script"/>
+<role rolename="manager-gui"/>
+<user username="tomcat" password="tomcat" roles="tomcat"/>
+<user username="both" password="tomcat" roles="tomcat,role1"/>
+<user username="role1" password="tomcat" roles="role1"/>
+<user username="admin" password="tomcat" roles="manager-gui,manager-script "/> 
+13. Add the following to the content.xml in this folder C:\tomcat\webapps\manager\META-INF/context.xml
+
+    you need to comment the <valve> section till above </context> so that you can to tomcat server manager user from any machine.
+	<Context antiResourceLocking="false" privileged="true" >
+	<!--  
+	<Valve className="org.apache.catalina.valves.RemoteAddrValve"
+         allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1" />
+  	<Manager sessionAttributeValueClassNameFilter="java\.lang\.(?:Boolean|Integer|Long|Number|String)|org\.apache\.catalina\.filters\.CsrfPreventionFilter\$LruCache(?:\$1)?|java\.util\.(?:Linked)?HashMap"/>
+-->
+</Context>
+	
+13. Install and configure Maven on jenkins server
+14. Sample java project is available on https://github.com/kumarself10/spring-petclinic.git
+15. Install deploy to container plugin on jenkins server
+15. Create a job on jenkins server
+	--> in the job mention the follwing parameters
+			--> git url ==> https://github.com/pkvanda/spring-petclinic.git
+			--> add a build step ==> invoke top level maven tagets
+			--> specify maven goals as clean compile package
+16. Add a post-build action
+	--> deploy war/ear to container
+		-->Add Tomcat 8.x container,  mention user name as admin, password tomcat
+		--> add tomcat server name and port (example: http://54.188.99.120:8090)
+		--> war/ear files==> **/*.war
+		--> context==> mywebapp
+17. Save the job and run it 
+18. Test your application by going to http://<tomcatserver>:portno/mywebapp
+
